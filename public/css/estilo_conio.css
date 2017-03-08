@@ -1,0 +1,90 @@
+.messages {
+    position: relative;
+    list-style: none;
+    padding: 20px 10px 0 10px;
+    margin: 0;
+    height: 100%;
+    overflow: scroll;
+    overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
+}
+
+.msg_avatar{
+    height: 60px;
+    width: 60px;
+}
+
+.dropdown-submenu {
+      position: relative;
+    }
+    
+    .dropdown-submenu .dropdown-menu {
+      top: 0;
+      left: 100%;
+      margin-top: -1px;
+    }
+
+.panel-body{
+    height: 70%;
+}
+
+
+.modal-backdrop.in { 
+    z-index: auto;
+    }
+.modal-dialog
+{
+    width: 300px !important;
+}
+
+.popover{
+        height: 320px;
+        width: 300px;
+    }
+
+.emoticon{
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+  }
+
+    .emoticon-text{
+    width: 22px;
+    height: 22px;
+  }
+
+
+
+#texto_usuario {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: 0px solid gray;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    height: 68px;
+    overflow: auto;
+    padding: 2px;
+    width: 99%;
+    font-size:18px;
+    background-color: white;
+    border-radius: 9px;
+    
+}
+
+.btn_chat{
+    height:34px;
+    width:90px;
+}
+
+.panel-footer{
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+}
+
+body {
+    background-image: url("../img/bg_chat_dark.png");
+}
+
