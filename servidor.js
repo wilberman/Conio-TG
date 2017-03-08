@@ -1,3 +1,8 @@
+/*Servidor Con.IO - Microchat
+Projeto para graduação do curso de Tecnologo em Analise e Desenvolvimento de Sistemas da Fatec Taubaté.
+Alunos: Felipe Rodrigues - Wlber Ribas
+Orientador : Luiz Eduardo Souza Evangelista*/
+
 var express = require('express');
 var app = require('express')();
 //var http = require('http').Server(app);
