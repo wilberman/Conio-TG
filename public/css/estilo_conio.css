@@ -84,6 +84,12 @@
 
 }
 
+.div_emoji{
+overflow: hidden;
+height:200px;
+overflow: scroll;
+}
+
 body {
     background-image: url("../img/bg_chat_dark.png");
 }
