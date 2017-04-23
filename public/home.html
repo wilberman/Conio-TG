@@ -1,0 +1,438 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="./fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="pesquisa.css" rel="stylesheet">
+    <script>
+      //var jsonString = '{"id": "1","Nome": "Kenji","Sobrenome": "Taniguchi","Username": "kenji","bio": "Sono Polifásico *-*","Imagem":"kenji.png","email":"kenji@kenji.com"}';
+                        var jsonString = '{"id": "2","Nome": "Orlando","Sobrenome": "Rosa","Username": "orlando","bio": "Sdds cabelo =( ","Imagem":"orlando.png","email":"orlando@orlando.com.br"}';
+                         //var jsonString = '{"id": "3","Nome": "Levi","Sobrenome": "Rodrigo","Username": "levi","bio": "Petrobrás","Imagem":"levi.png","email":"levi@petrobras.com.br"}';
+                         
+                         var jsonProfile = JSON.parse(jsonString);
+                         
+                         function testaRota(){
+                         dados={id: 41};
+                         $.ajax({
+                          url: '/getListaBloqueio',
+                          contentType: "application/json; charset=utf-8",
+                          dataType: "json",
+                          data: dados,
+                          method: 'POST',
+                          cache: false,
+                          contentType: false,
+                          processData: false,
+                          complete: function(dados){
+                              //alert(JSON.stringify(data))
+                              //carregaProfile(dados)
+                          },
+                          success: function(dados){
+                              alert(JSON.stringify(dados))
+                              
+                          },
+                          error: function(dados){
+                              alert(JSON.stringify(dados));
+                              
+                          }
+                        });
+
+                      }
+
+                      function loadJSON(){
+                         $.ajax({
+                          url: '/getUsuarioAtivo',
+                          contentType: "application/json; charset=utf-8",
+                          dataType: "json",
+                          complete: function(dados){
+                              //alert(JSON.stringify(data))
+                              //carregaProfile(dados)
+                          },
+                          success: function(dados){
+                              alert(JSON.stringify(dados))
+                              carregaProfile(dados)
+                          },
+                          error: function(dados){
+                              alert(JSON.stringify(dados));
+                              carregaProfile(dados)
+                          }
+                        });
+
+                      }
+                       
+
+                         
+                         function alteraPerfil(){
+                         
+                        	var r = confirm("Deseja confirmar as alterações em seu perfil?");
+                        		if (r == true) {
+                        		var jsonString = '{"id": "3","Nome": "'+$('#txt_nome').text()+'","Sobrenome": "'+$('#txt_sobrenome').text()+'","Username": "'+$('#txt_username').text()+'","bio": "'+$('#txt_bio').text()+'","Imagem":"levi.png","email":"'+$('#txt_email').text()+'"}';
+                        		var jsonProfile = JSON.parse(jsonString);
+                        		alert("Seus dados foram alterados com sucesso.")
+                        		carregaProfile(jsonProfile);
+                        		} else {
+                        		alert("Seus dados não foram alterados.")
+                        		}
+                         
+                         
+                         $('#modal_profile').modal('hide');
+                         
+                         
+                         }
+                         
+                        	
+                        
+                        	function carregaProfile(dados){
+                        	 $('#nome_profile').text("Olá, "+dados.Nome+ " "+dados.Sobrenome);
+                        	 $('#username').text(dados.Username);
+                        	 $('#img_profile').attr("src", "./avatares/"+dados.Imagem)
+                        	 $('#bio').text('"'+dados.bio+'"');
+                        	 
+                        	 
+                        	 
+                        	 //gera o modal para edição de profile-body
+                        	 var modal = "<div id='modal_profile' class='modal fade' role='dialog'>"+
+                        			  "<div class='modal-dialog'>"+
+                        				"<div class='modal-content'>"+
+                        				  "<div class='modal-header'>"+
+                        					"<button type='button' class='close' data-dismiss='modal'>&times;</button>"+
+                        					"<h4 class='modal-title'>Editar perfil de "+dados.Nome+" "+dados.Sobrenome+"</h4>"
+                        					+"</div>"+
+                        				  "<div class='modal-body'>"+
+                        				   "<center>"+
+                        								"<img src='./avatares/"+dados.Imagem+"' name='"+dados.Nome+" "+dados.Sobrenome+"' width='100' height='100' border='0' class='img-circle'></a><br>"+
+                        								"<hr>"+
+                        								"<div class='row form-group' draggable='false'>"+
+                        								"<div class='col-lg-4 text-left ' >Nome</div>"+
+                        								"<div class='col-lg-8 text-left'>"+
+                        								"<div id='txt_nome' contenteditable='true' class='form-control campo_texto' >"+dados.Nome+"</div></div></div>"+
+                        					"<div class='row form-group' draggable='false'> <div class='col-lg-4 text-left'>Sobrenome</div>"+
+                        					  "<div class='col-lg-8 text-left'><div id='txt_sobrenome' contenteditable='true' class='form-control campo_texto'>"+dados.Sobrenome+"</div></div></div>"+
+                        					"<div class='row form-group' draggable='false'><div class='col-lg-4 text-left'>Nome de usuário</div><div class='col-lg-8 text-left'>"+
+                        					"<div id='txt_username' contenteditable='true' class='form-control campo_texto'>"+dados.Username+"</div></div></div>"+
+                        					"<div class='row form-group' draggable='false'><div class='col-lg-4 text-left'>E-mail</div><div class='col-lg-8 text-left'>"+
+                        					"<div id='txt_email' contenteditable='true' class='form-control campo_texto'>"+dados.email+"</div>"+
+                        					"</div></div><div class='row form-group' draggable='false'>"+
+                        					 "<div class='col-lg-4 text-left'>Bio</div><div class='col-lg-8 text-left'>"+
+                        					"<div id='txt_bio' contenteditable='true' class='form-control campo_texto'>"+ dados.bio+"</div></div></div>"+
+                        				  "<div class='modal-footer'>"+
+                        				  "<center>"+
+                        					"<button type='button' class='btn btn-success' id='salvarAlteracoes' onclick='alteraPerfil()'>Salvar</button>"+
+                        					"<button type='button' class='btn btn-danger', data-dismiss='modal'>Fechar</button>"+
+                        					"</center>"+
+                        				  "</div>"+
+                        				"</div>"+
+                        			  "</div>"+
+                        			"</div>";
+                        			
+                        	 
+                        		jQuery('body').append(modal);
+                        	 
+                        	 return false;
+                        	}
+    </script>
+  </head><body onload="loadJSON()">
+    <div class="container bootstrap snippets">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-4">
+          <div class="panel rounded shadow">
+            <div class="panel-body">
+              <div class="inner-all">
+                <ul class="list-unstyled">
+                  <li>
+                    <img class="center-block img-bordered-primary img-circle img-responsive profile_pic" src="./avatares/kenji.png" align="center" id="img_profile">
+                  </li>
+                  <li class="text-center">
+                    <h4>
+                      <span id="nome_profile">Olá, Kenji Taniguchi</span>
+                    </h4>
+                    <p class="text-muted">
+                      <span id="username">kenji</span>
+                    </p>
+                    <p class="text-muted">
+                      <span id="bio">
+                        <u>Sono Polifásico *-*</u>
+                      </span>
+                    </p>
+                  </li>
+                  <li>
+                    <br>
+                  </li>
+                  <li>
+                    <div class="btn-group-vertical btn-block">
+                      <a href="" class="btn btn-default" id="btn_profile" data-toggle="modal" data-target="#modal_profile"><i class="fa fa-cog pull-right"></i>Editar Perfil</a>
+                      <a href="" class="btn btn-default" onclick="testaRota()"><i class="fa fa-sign-out pull-right"></i>Sair</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-theme rounded shadow">
+            <div class="panel-heading">
+              <div class="pull-left">
+                <h3 class="panel-title">Ações Rápidas</h3>
+              </div>
+              <div class="pull-right"></div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="panel-body no-padding rounded">
+              <ul class="list-group no-margin">
+                <li class="list-group-item">
+                  <i class="fa fa-weixin mr-5"></i>Iniciar uma conversa</li>
+                <li class="list-group-item">
+                  <i class="fa fa-user-times  mr-5"></i>Editar lista de bloqueios</li>
+                <li class="list-group-item">
+                  <i class="fa fa-cogs mr-5"></i>Configurações</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-8">
+          <div class="hidden-xs profile-cover">
+            <div class="cover rounded shadow no-overflow">
+              <div class="inner-cover">
+                <div class="btn-group cover-menu-mobile hidden-lg hidden-md"></div>
+                <img src="./img/cover/cover.png" class="img-responsive full-width" alt="cover" style="max-height:300px;">
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="panel-success text-info">
+                <div class="panel-heading" style="height:68px; vertical-align:middle; ">
+                  <div>Salas Disponíveis</div>
+                </div>
+                <div class="panel-body" style="background-color:white">
+                  <ul class="list-group no-margin list-unstyled">
+                    <li>
+                      <div class="btn-group-vertical btn-block">
+                        <a href="" class="btn btn-default btn_home"><i class="fa fa-cog mr-5 pull-left"></i>Chat Global</a>
+                        <a href="" class="btn btn-default btn_home"><i class="fa fa-comment-o mr-5 pull-left"></i> Node JS</a>
+                        <a href="" class="btn btn-default btn_home"><i class="fa fa-comment-o mr-5 pull-left"></i> VBA</a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="panel-info text-info">
+                <div class="panel-heading" style="vertical-align: middle;">
+                  <div class="row" style="display:inline; height:20px;">Usuários Online (4)
+                    <div class="col-md-4 col-md-offset-3 pull-right style='height=20px;'" style="display:inline;">
+                      <form action="" class="search-form">
+                        <div class="form-group has-feedback">
+                          <label for="search" class="sr-only">Search</label>
+                          <input type="text" class="form-control" name="pesquisa" id="search" placeholder="Pesquisar">
+                          <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-body" style="background-color:white">
+                  <ul class="list-group no-margin list-unstyled">
+                    <li>
+                      <div class="btn-group-vertical btn-block">
+                        <a href="" class="btn btn-default btn_home"><img class="center-block img-bordered-primary img-circle img-responsive profile_pic" src="./avatares/levi.png" align="center" style="width:32px;height:32px;display:inline">  Levi Rodrigo</a>
+                        <a href="" class="btn btn-default btn_home"><img class="center-block img-bordered-primary img-circle img-responsive profile_pic" src="./avatares/zanetti.png" align="center" style="width:32px;height:32px;display:inline">  Luiz Paulo Zanetti</a>
+                        <a href="" class="btn btn-default btn_home"><img class="center-block img-bordered-primary img-circle img-responsive profile_pic" src="./avatares/kenji.png" align="center" style="width:32px;height:32px;display:inline">  Kenji Taniguchi</a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer" style="background-color:black">
+      <div class="container">
+        <p class="text-muted">
+          <img class="center-block img-bordered-primary img-responsive" src="./img/logo.png" align="center">
+        </p>
+      </div>
+    </footer>
+    <style type="text/css">
+      body {
+                      margin-top: 20px;
+                      background: #eee;
+                    }
+                    
+                    .divider {
+                      height: 20px;
+                      display: block;
+                    }
+                    
+                    .input-group-addon {
+                      -moz-border-radius: 10px;
+                      -webkit-border-radius: 10px;
+                      border-radius: 10px;
+                      min-width: 39px;
+                    }
+                    
+                    .input-group-addon .ckbox,
+                    .input-group-addon .rdio {
+                      position: absolute;
+                      top: 4px;
+                      left: 10px;
+                    }
+                    
+                    .input-group-lg > .form-control,
+                    .input-group-lg > .input-group-addon,
+                    .input-group-lg > .input-group-btn > .btn,
+                    .input-group-sm > .form-control,
+                    .input-group-sm > .input-group-addon,
+                    .input-group-sm > .input-group-btn > .btn,
+                    .input-group-xs > .form-control,
+                    .input-group-xs > .input-group-addon,
+                    .input-group-xs > .input-group-btn > .btn {
+                      -moz-border-radius: 0px;
+                      -webkit-border-radius: 0px;
+                      border-radius: 0px;
+                    }
+                    
+                    .input-sm,
+                    .form-group-sm .form-control {
+                      -moz-border-radius: 5px;
+                      -webkit-border-radius: 5px;
+                      border-radius: 5px;
+                    }
+                    
+                    .form-control {
+                      -moz-border-radius: 5px;
+                      -webkit-border-radius: 5px;
+                      border-radius: 5px;
+                      -moz-box-shadow: none;
+                      -webkit-box-shadow: none;
+                      box-shadow: none;
+                    }
+                    
+                    @media (max-width: 640px) {
+                      .form-inner-all [class*="col-"]:last-child .form-control {
+                        margin-top: 15px;
+                      }
+                    }
+                    /* ========================================================================
+                                     * PROFILE
+                                     * ======================================================================== */
+                    
+                    .profile-cover {
+                      width: 100%;
+                    }
+                    
+                    .profile-cover .cover {
+                      position: relative;
+                      border: 10px solid #FFF;
+                    }
+                    
+                    .profile-cover .cover .inner-cover {
+                      overflow: hidden;
+                      height: auto;
+                    }
+                    
+                    .profile-cover .cover .inner-cover img {
+                      border: 1px solid transparent;
+                      text-align: center;
+                      width: 100%;
+                    }
+                    
+                    .profile-cover .cover .inner-cover .cover-menu-mobile {
+                      position: absolute;
+                      top: 10px;
+                      right: 10px;
+                    }
+                    
+                    .profile-cover .cover .inner-cover .cover-menu-mobile button i {
+                      font-size: 17px;
+                    }
+                    
+                    .profile-cover .cover ul.cover-menu {
+                      padding-left: 150px;
+                      position: absolute;
+                      overflow: hidden;
+                      left: 1px;
+                      float: left;
+                      bottom: 0px;
+                      width: 100%;
+                      margin: 0px;
+                      background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.24);
+                    }
+                    
+                    .profile-cover .cover ul.cover-menu li {
+                      display: block;
+                      float: left;
+                      margin-right: 0px;
+                      padding: 0px 10px;
+                      line-height: 40px;
+                      height: 40px;
+                      -moz-transition: all 0.3s;
+                      -o-transition: all 0.3s;
+                      -webkit-transition: all 0.3s;
+                      transition: all 0.3s;
+                    }
+                    
+                    .profile-cover .cover ul.cover-menu li:hover {
+                      background-color: rgba(0, 0, 0, 0.44);
+                    }
+                    
+                    .profile-cover .cover ul.cover-menu li.active {
+                      background-color: rgba(0, 0, 0, 0.64);
+                    }
+                    
+                    .profile-cover .cover ul.cover-menu li a {
+                      color: #FFF;
+                      font-weight: bold;
+                      display: block;
+                      height: 40px;
+                      line-height: 40px;
+                      text-decoration: none;
+                    }
+                    
+                    .profile-cover .cover ul.cover-menu li a i {
+                      font-size: 18px;
+                    }
+                    
+                    .profile-cover .profile-body {
+                      margin: 0px auto 10px;
+                      position: relative;
+                    }
+                    
+                    .profile-cover .profile-timeline {
+                      padding: 15px;
+                    }
+                    
+                    .img-post {
+                      width: 30px;
+                      height: 30px;
+                    }
+                    
+                    .img-post2 {
+                      width: 50px;
+                      height: 50px;
+                    }
+                    
+                    .btn_home {
+                      text-align: left;
+                      padding-left: 6px;
+                    }
+                    
+                    .profile_pic {
+                      width: 120px;
+                      height: 120px;
+                    }
+                    .campo_texto{
+                      display: block;
+                      width: 100%;
+
+                    }
+    </style>
+  
+
+</body></html>

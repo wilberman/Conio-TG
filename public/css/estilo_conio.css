@@ -39,18 +39,18 @@
 
 .popover{
         height: 320px;
-        width: 300px;
+        width: 320px;
     }
 
 .emoticon{
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
   }
 
     .emoticon-text{
-    width: 22px;
-    height: 22px;
+    width: 30px;
+    height: 30px;
   }
 
 
@@ -84,13 +84,45 @@
 
 }
 
-.div_emoji{
-overflow: hidden;
-height:200px;
-overflow: scroll;
-}
-
 body {
     background-image: url("../img/bg_chat_dark.png");
+}
+
+.div_emoji{
+overflow: hidden;
+height:195px;
+overflow: scroll;
+width: 255px;
+padding-left: 10px;
+}
+
+.broadcast_sistema {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12.5px;
+      line-height: 21px;
+      border-radius: 7.5px;
+      color: rgba(0, 0, 0, 0.95);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+      background-color: rgba(255, 245, 196, 0.95);
+      padding: 5px 12px 6px 12px;
+      box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+      padding-top: 10px;
+      padding-bottom: 10px;
+      
+    }
+
+    .container_broadcast{
+      display: flex;
+      justify-content: center;
+      padding-left:0px; 
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+
+    .emoticon_btn {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 

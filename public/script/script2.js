@@ -1,8 +1,10 @@
 var socket = io();
 var snd = new Audio("som.mp3");
 
+
 var nome_usuario;
 var img_usuario;
+var blackList = [];
 //var msg_json_env;
 //var msg_rec;
 
@@ -32,10 +34,38 @@ geraMensagem('Novo usuario na sala','kenji');
 });*/
 
 function nick (){
-    nome_usuario = prompt("Digite seu nome", "Kenji");
-    img_usuario = nome_usuario+".png"
+    nome_usuario = prompt("Digite seu nome", "kenji");
+    img_usuario = nome_usuario+".png";
+    socket.emit('add user', nome_usuario);
+    /*if(nome_usuario!="levi"){
+        blackList.push("levi");
+    }*/
+
     return false;
 }
+
+function removeBlock(){
+    alert(blackList);
+    var user = prompt("Quem voce deseja desbloquear?", "levi");
+    for(var i in blacklist){
+    if(blacklist[i]==user){
+        blacklist.splice(i,1);
+        alert("Desbloqueado");
+        break;
+    }
+}
+return false;
+}
+
+function blockUser(){
+    var user = prompt("Quem voce deseja bloquear?", "levi");
+    blackList.push(user);
+    alert(blackList);
+    return false;
+    
+}
+
+
 
 
 function enviarMsg(texto){
@@ -49,10 +79,67 @@ function enviarMsg(texto){
     
   };
 
+  socket.on('disconnect', function () {
+
+  });
+
+  socket.on('user joined', function (data) {
+      if (data.username ==null){//arrumar depois
+
+      }else{
+
+    geraMsgSistema(data.username+' entrou na sala.');
+    jQuery("#label_users_ativos").text('Usuários Online nesta sala: '+data.total_usuarios);
+      }
+   
+  });
+
+  socket.on('user left', function (data) { //arrumar depois
+    if (data.username==null){
+
+         }else{
+             
+
+        geraMsgSistema(data.username+' saiu da sala.');
+        jQuery("#label_users_ativos").text('Usuários Online nesta sala: '+data.total_usuarios);
+          
+      }
+
+    
+  });
+
 socket.on('enviar', function(mensagem){
        // msg_rec = JSON.parse(mensagem);
-        geraMensagem(mensagem);
+       //nao esquecer de mudar o if para objeto json
+       if(blackList.indexOf(mensagem[0]) > -1){
+
+       }
+       else{
+           
+           geraMensagem(mensagem);
+       }
+        
       });
+
+
+function geraMsgSistema(msg){
+
+    tpl_msg ='<div class= "container_broadcast container" style="width:100%">'+
+              '<div class="broadcast_sistema text-xs-center">'+
+              msg+
+              '</div><br></div>';
+
+              if($('#cb_ativaSom').is(":checked")){
+		        snd.play();
+	          }
+
+    jQuery("#mensagens").append(tpl_msg);
+	jQuery("#mensagens").animate({scrollTop: $('#mensagens').prop("scrollHeight")}, 800);
+    
+
+    return false;
+
+}
 
 
   function geraMensagem(mensagem) {
@@ -96,6 +183,10 @@ socket.on('enviar', function(mensagem){
     jQuery("#mensagens").append(tpl_mensagem);
 	jQuery("#mensagens").animate({scrollTop: $('#mensagens').prop("scrollHeight")}, 800);
     
+    if(isMobile==true){
+        alert("mobile");
+        navigator.vibrate(50);
+    }
 
     return false;
 }
@@ -186,6 +277,7 @@ var usuario="<li class='media' data-toggle='modal' data-target='#modal"+nomeModa
                 "</li>";
                 jQuery('body').append(modal);
                 jQuery('#usuarios').append(usuario);
+                window.navigator.vibrate(200); 
                 return true;
 
 }
@@ -199,6 +291,18 @@ $(function(){ //altera o tema da pagina
         themesheet.attr('href',themeurl);
     });
 });
+
+//carrega lista de bloqueios
+
+function carregaBlackList(){
+
+    // todo: mudar depois para array de id de usuarios bloqueados
+
+    blackList.push(prompt("Digite um nick para bloquear", ""));
+    alert(blackList);
+
+return true;
+}
 
   
   

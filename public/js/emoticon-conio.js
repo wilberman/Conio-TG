@@ -49,7 +49,7 @@ function converteEmoticon(emoticon) {
     var formatedWord = emoticon.split(' ').map(function(word, i) {
       if(emoticonsMap[word]) {
         word = "<img class= \'emoticon-text\' src= \'img/"+ emoticonsMap[word] + "\' >";
-        alert(word);
+        //alert(word);
       }
       return word;
     });
